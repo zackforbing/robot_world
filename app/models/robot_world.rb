@@ -11,10 +11,10 @@ class RobotWorld
   def create(robot)
     database.transaction do
       database['robots'] ||= []
-      # database['total'] ||= 0
-      # database['total'] += 1
-      # database total from number of keys in database['robots']
+      database['total'] ||= 0
+      database['total'] += 1
       database['robots'] << {
+        "id" => database['total'],
         "name" => robot[:name],
         "city" => robot[:city],
         "state" => robot[:state],
@@ -48,21 +48,21 @@ class RobotWorld
     Robot.new(find_robot_named(name))
   end
 
-  def update(name, robot)
+  def update(robot_data)
     database.transaction do
-      target_robot = database['robots'].find { |data| data["name"] == name }
-      target_robot["name"] = robot[:name]
-      target_robot["city"] = robot[:city]
-      target_robot["state"] = robot[:state]
-      target_robot["birthdate"] = robot[:birthdate]
-      target_robot["date hired"] = robot[:date_hired]
-      target_robot["department"] = robot[:department]
+      target_robot = database['robots'].find { |data| data["name"] == robot_data[:name] }
+      target_robot["name"] = robot_data[:name]
+      target_robot["city"] = robot_data[:city]
+      target_robot["state"] = robot_data[:state]
+      target_robot["birthdate"] = robot_data[:birthdate]
+      target_robot["date hired"] = robot_data[:date_hired]
+      target_robot["department"] = robot_data[:department]
     end
   end
-  #
-  # def destroy(id)
-  #   database.transaction do
-  #     database["tasks"].delete_if { |task| task["id"] == id }
-  #   end
-  # end
+
+  def destroy(robot)
+    database.transaction do
+      database["robots"].delete_if { |robot| robot["name"] == robot }
+    end
+  end
 end

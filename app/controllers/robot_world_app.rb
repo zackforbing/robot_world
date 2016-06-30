@@ -27,8 +27,8 @@ class RobotWorldApp < Sinatra::Base
     erb :edit
   end
 
-  put '/robot/:name' do |name|
-    robot_world.update(name, name)
+  put '/robots/:name' do |name|
+    robot_world.update(name)
     redirect '/robots'
   end
 
