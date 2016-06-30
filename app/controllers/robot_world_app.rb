@@ -22,23 +22,23 @@ class RobotWorldApp < Sinatra::Base
     redirect '/robots'
   end
 
-  get '/robots/:name/edit' do |name|
-    @robot = robot_world.find(name)
+  get '/robots/:id/edit' do |id|
+    @robot = robot_world.find(id)
     erb :edit
   end
 
-  put '/robots/:name' do |name|
-    robot_world.update(name)
+  put '/robots/:id' do |id|
+    robot_world.update(id.to_i, params[:robot])
     redirect '/robots'
   end
 
-  get '/robots/:name' do |name|
-    @robot = robot_world.find(name)
+  get '/robots/:id' do |id|
+    @robot = robot_world.find(id)
     erb :show
   end
 
-  delete '/robots/:name' do |name|
-    robot_world.destroy(name)
+  delete '/robots/:id' do |id|
+    robot_world.destroy(id)
     redirect '/robots'
   end
 

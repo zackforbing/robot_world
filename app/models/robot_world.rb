@@ -18,7 +18,6 @@ class RobotWorld
         "name" => robot[:name],
         "city" => robot[:city],
         "state" => robot[:state],
-        "avatar" => robot[:avatar],
         "birthdate" => robot[:birthdate],
         "date hired" => robot[:date_hired],
         "department" => robot[:department],
@@ -40,29 +39,29 @@ class RobotWorld
     all_robots.map { |data| Robot.new(data) }
   end
 
-  def find_robot_named(name)
-  all_robots.find { |robot| robot["name"] == name }
+  def find_robot_named(id)
+  all_robots.find { |robot| robot["id"] == id }
   end
 
-  def find(name)
-    Robot.new(find_robot_named(name))
+  def find(id)
+    Robot.new(find_robot_named(id.to_i))
   end
 
-  def update(robot_data)
+  def update(id, robot)
     database.transaction do
-      target_robot = database['robots'].find { |data| data["name"] == robot_data[:name] }
-      target_robot["name"] = robot_data[:name]
-      target_robot["city"] = robot_data[:city]
-      target_robot["state"] = robot_data[:state]
-      target_robot["birthdate"] = robot_data[:birthdate]
-      target_robot["date hired"] = robot_data[:date_hired]
-      target_robot["department"] = robot_data[:department]
+      target_robot = database['robots'].find { |data| data["id"] == id }
+      target_robot["name"] = robot[:name]
+      target_robot["city"] = robot[:city]
+      target_robot["state"] = robot[:state]
+      target_robot["birthdate"] = robot[:birthdate]
+      target_robot["date hired"] = robot[:date_hired]
+      target_robot["department"] = robot[:department]
     end
   end
 
-  def destroy(robot)
+  def destroy(id)
     database.transaction do
-      database["robots"].delete_if { |robot| robot["name"] == robot }
+      database["robots"].delete_if { |robot| robot["id"] == id.to_i }
     end
   end
 end
