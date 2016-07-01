@@ -1,5 +1,4 @@
-require 'yaml/store'
-require_relative 'robot'
+require_relative 'robot' #necessary?
 
 class RobotWorld
   attr_reader :database
@@ -9,30 +8,14 @@ class RobotWorld
   end
 
   def create(robot)
-    database.transaction do
-      database['robots'] ||= []
-      database['total'] ||= 0
-      database['total'] += 1
-      database['robots'] << {
-        "id" => database['total'],
-        "name" => robot[:name],
-        "city" => robot[:city],
-        "state" => robot[:state],
-        "birthdate" => robot[:birthdate],
-        "date hired" => robot[:date_hired],
-        "department" => robot[:department],
-      }
-    end
-  end
-
-  def create_avatar(name)
-    '<img src="https://robohash.org/<%= @robot.name %>">'
+    database.execute("INSERT INTO robots (name, city, state, birthdate, date_hired, department)
+                      VALUES (?, ?, ?, ?, ?, ?);",
+                      robot[:name], robot[:city], robot[:state],
+                      robot[:birthdate], robot[:date_hired], robot[:department])
   end
 
   def all_robots
-    database.transaction do
-      database['robots'] || []
-    end
+    database.execute("SELECT * FROM robots;")
   end
 
   def all
@@ -40,7 +23,7 @@ class RobotWorld
   end
 
   def find_robot_named(id)
-  all_robots.find { |robot| robot["id"] == id }
+  database.execute("SELECT * FROM robots WHERE id=?;", id).first
   end
 
   def find(id)
@@ -48,20 +31,26 @@ class RobotWorld
   end
 
   def update(id, robot)
-    database.transaction do
-      target_robot = database['robots'].find { |data| data["id"] == id }
-      target_robot["name"] = robot[:name]
-      target_robot["city"] = robot[:city]
-      target_robot["state"] = robot[:state]
-      target_robot["birthdate"] = robot[:birthdate]
-      target_robot["date hired"] = robot[:date_hired]
-      target_robot["department"] = robot[:department]
-    end
+    database.execute("UPDATE tasks SET name=?,
+                      city=?,
+                      state=?,
+                      birthdate=?,
+                      date_hired=?,
+                      department=? WHERE id=?;",
+                      robot[:name],
+                      robot[:city],
+                      robot[:state],
+                      robot[:birthdate],
+                      robot[:date_hired],
+                      robot[:department],
+                      id)
   end
 
   def destroy(id)
-    database.transaction do
-      database["robots"].delete_if { |robot| robot["id"] == id.to_i }
-    end
+    database.execute("DELETE FROM robots WHERE id= ?;", id)
+  end
+
+  def delete_all
+    database.execute("DELETE FROM robots;")
   end
 end

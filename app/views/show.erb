@@ -1,6 +1,6 @@
 <a href="/robots">back to Robodex</a><br>
 
-<img src="https://robohash.org/<%= @robot.name %>.png">
+<img src="https://robohash.org/<%= (robot.name+robot.city+robot.state+robot.birthdate+robot.date_hired+robot.department).delete(' ') %>.png">
 <h1><%= @robot.name %></h1>
 
 <p>city: <%= @robot.city %></p>

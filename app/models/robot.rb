@@ -13,7 +13,7 @@ class Robot
     @city       = data["city"]
     @state      = data["state"]
     @birthdate  = data["birthdate"]
-    @date_hired = data["date hired"]
+    @date_hired = data["date_hired"]
     @department = data["department"]
   end
 end
