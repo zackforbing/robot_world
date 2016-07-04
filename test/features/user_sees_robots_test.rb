@@ -45,6 +45,7 @@ class UserSeesRobotsTest < FeatureTest
     #page shows that George Marshall does have a link, and prying shows that my usage
     #of current_robot_id is correct...not sure why this fails.
     #also, George Marshall's page shows up just fine when I comment out the first one??
+    #so the test runs like this...but uncomment the above code and it fails. 
     visit "robots/#{current_robot_id}"
 
     assert page.has_content?("George Marshall")
