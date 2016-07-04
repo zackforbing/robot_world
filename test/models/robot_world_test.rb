@@ -25,7 +25,6 @@ class RobotWorldTest < Minitest::Test
     robot_world.create(name: "Alexandrius", city: "Constantinople")
     robot_world.create(name: "Robosocrates", city: "Athens Prime")
     robot_world.create(name: "Stevenhawking.com", city: "New York 5")
-
     assert_equal 3, robot_world.all.count
     assert_instance_of Robot, robot_world.all[0]
   end
