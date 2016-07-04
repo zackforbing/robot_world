@@ -31,7 +31,7 @@ class RobotWorld
   end
 
   def update(id, robot)
-    database.execute("UPDATE tasks SET name=?,
+    database.execute("UPDATE robots SET name=?,
                       city=?,
                       state=?,
                       birthdate=?,

@@ -22,6 +22,11 @@ class RobotWorldApp < Sinatra::Base
     redirect '/robots'
   end
 
+  post 'robots/random' do
+    robot_world.create_random(params[:robot])
+    redirect '/robots'
+  end
+
   get '/robots/:id/edit' do |id|
     @robot = robot_world.find(id)
     erb :edit

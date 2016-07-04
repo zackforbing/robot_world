@@ -2,7 +2,7 @@ require_relative '../test_helper'
 
 class UserSeesRobotsTest < FeatureTest
 
-  def test_user_sees_robodex
+  def test_user_sees_robo
     # As a user, when I visit the tasks index, then I should see a list of my tasks.
     task1 = task_manager.create({
       title: "Coding forever",

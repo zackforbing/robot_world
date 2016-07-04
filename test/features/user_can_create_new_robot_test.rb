@@ -9,13 +9,13 @@ class UserCanCreateARobotTest < FeatureTest
     # "new description", and i click the submit button, then i should see the list
     # of tasks and an All Tasks header
     visit "/"
-    click_link "New Task"
+    click_link "New Robot"
 
-    assert_equal "/tasks/new", current_path
+    assert_equal "/robots/new", current_path
 
-    fill_in "task[title]", with: "new task"
-    fill_in "task[description]", with: "new description"
-    click_button("Create New Task")
+    fill_in "robot[name]", with: "ferberzher"
+    fill_in "robot[city]", with: "new description"
+    click_button("Create New Robot")
 
     assert_equal "/tasks", current_path
     assert page.has_css?("#title")
