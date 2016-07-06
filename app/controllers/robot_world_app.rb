@@ -1,4 +1,4 @@
-require 'models/robot_world'
+require 'sqlite3'
 
 class RobotWorldApp < Sinatra::Base
   set :root, File.expand_path("..", __dir__)
@@ -22,28 +22,38 @@ class RobotWorldApp < Sinatra::Base
     redirect '/robots'
   end
 
-  get '/robots/:name/edit' do |name|
-    @robot = robot_world.find(name)
-    erb :edit
-  end
-
-  put '/robot/:name' do |name|
-    robot_world.update(name, name)
+  post 'robots/random' do
+    robot_world.create_random(params[:robot])
     redirect '/robots'
   end
 
-  get '/robots/:name' do |name|
-    @robot = robot_world.find(name)
+  get '/robots/:id/edit' do |id|
+    @robot = robot_world.find(id)
+    erb :edit
+  end
+
+  put '/robots/:id' do |id|
+    robot_world.update(id.to_i, params[:robot])
+    redirect '/robots'
+  end
+
+  get '/robots/:id' do |id|
+    @robot = robot_world.find(id)
     erb :show
   end
 
-  delete '/robots/:name' do |name|
-    robot_world.destroy(name)
+  delete '/robots/:id' do |id|
+    robot_world.destroy(id)
     redirect '/robots'
   end
 
   def robot_world
-    database = YAML::Store.new('db/robot_world')
-    @robot_world ||= RobotWorld.new(database)
+    if ENV['RACK_ENV'] == 'test'
+    database = SQLite3::Database.new("db/robot_world_test.db")
+  else
+    database = SQLite3::Database.new("db/robot_world_development.db")
+  end
+  database.results_as_hash = true
+  RobotWorld.new(database)
   end
 end

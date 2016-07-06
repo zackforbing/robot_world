@@ -1,5 +1,6 @@
 class Robot
-  attr_reader :name,
+  attr_reader :id,
+              :name,
               :city,
               :state,
               :birthdate,
@@ -7,15 +8,12 @@ class Robot
               :department
 
   def initialize(data)
+    @id         = data["id"]
     @name       = data["name"]
     @city       = data["city"]
     @state      = data["state"]
     @birthdate  = data["birthdate"]
-    @date_hired = data["date hired"]
+    @date_hired = data["date_hired"]
     @department = data["department"]
   end
-
-  # def avatar(name)
-  #   figure out a way to use the img <img src="https://robohash.org/<%= name %>.png">
-  # end
 end

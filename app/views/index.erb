@@ -1,11 +1,15 @@
-<h1>All Robots</h1>
+<h1>All Robots</h1><a href="/"><small>back</small></a><br/>
 
+<div id="robot_list" class="container-fluid">
   <% @robots.each do |robot| %>
-    <img src="https://robohash.org/<%= robot.name %>.png">
-    <h3><a href="/robots/<%= robot.name %>"><%= robot.name %></a></h3>
-    <a class="btn btn-default" href="/robots/<%= robot.name %>/edit">Edit</a>
-    <form class="btn btn-default" action="/robots/<%= robot.name %>" method="post">
+    <div class="col-lg-3">
+    <a href="/robots/<%= robot.id %>"><img src="https://robohash.org/<%= (robot.name+robot.city+robot.state+robot.birthdate+robot.date_hired+robot.department).delete(' ') %>.png?size=200x200" class="img-responsive"></a>
+    <h3><a href="/robots/<%= robot.id %>"><%= robot.name %></a></h3>
+    <a class="btn btn-default" href="/robots/<%= robot.id %>/edit">Edit</a>
+    <form class="btn btn-default" action="/robots/<%= robot.id %>" method="post">
       <input type="hidden" name="_method" value="DELETE">
       <input type="submit" value="Destroy Robot">
     </form><br>
+    </div>
   <% end %>
+</div>
